@@ -1,12 +1,18 @@
-// src // components // ChatHeader.tsx // 챗봇 상단 타이틀 및 상태표시영역
+// src // components // ChatHeader.tsx // 챗봇 상단 타이틀 및 새 대화 버튼
 
 import styled from "styled-components";
 
-export default function ChatHeader() {
+interface Props {
+  onNewChat: () => void;
+}
+
+export default function ChatHeader({ onNewChat }: Props) {
   return (
     <HeaderContainer>
       <Title>AI Talk / 챗봇 서비스</Title>
-      <StatusBadge>Online</StatusBadge>
+      <NewChatButton type="button" onClick={onNewChat}>
+        + 새 대화
+      </NewChatButton>
     </HeaderContainer>
   );
 }
@@ -27,11 +33,15 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-const StatusBadge = styled.span`
-  background: #10b981;
+const NewChatButton = styled.button`
+  background: transparent;
   color: #ffffff;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-weight: 500;
+  border: 1px solid #4b5563;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background: #1f2937;
+  }
 `;

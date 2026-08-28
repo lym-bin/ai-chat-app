@@ -10,6 +10,3 @@ export const createChatSession = () =>
   ai.chats.create({
     model: "gemini-2.5-flash",
   });
-
-// 앱에서 임포트할 수 있도록 export 추가
-export const chatSession = createChatSession();

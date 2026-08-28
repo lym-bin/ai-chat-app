@@ -21,6 +21,14 @@ export default function App() {
     stoppedRef.current = true;
     abortRef.current?.abort();
     setLoading(false);
+    // 첫 청크 도착 전에 중지하면 빈 봇 말풍선이 남으므로 제거
+    setMessages((prev) => {
+      const last = prev[prev.length - 1];
+      if (last && last.sender === "bot" && last.text === "") {
+        return prev.slice(0, -1);
+      }
+      return prev;
+    });
   };
 
   const handleNewChat = () => {
@@ -56,9 +64,11 @@ export default function App() {
       });
 
       for await (const chunk of stream) {
+        if (stoppedRef.current) break;
         const piece = chunk.text ?? "";
         if (!piece) continue;
         setMessages((prev) => {
+          if (prev.length === 0) return prev;
           const next = [...prev];
           next[next.length - 1] = {
             ...next[next.length - 1],
@@ -73,6 +83,7 @@ export default function App() {
       } else {
         console.error(error);
         setMessages((prev) => {
+          if (prev.length === 0) return prev;
           const next = [...prev];
           next[next.length - 1] = {
             sender: "bot",
@@ -83,7 +94,8 @@ export default function App() {
       }
     } finally {
       setLoading(false);
-      abortRef.current = null;
+      // 이 요청의 컨트롤러일 때만 정리 (연속 전송 시 새 컨트롤러 덮어쓰기 방지)
+      if (abortRef.current === controller) abortRef.current = null;
     }
   };
 

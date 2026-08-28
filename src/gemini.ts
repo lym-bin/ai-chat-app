@@ -8,5 +8,5 @@ const ai = new GoogleGenAI({
 // 세션을 새로 만들 수 있도록 함수로 분리 (새 대화 버튼에서 재사용)
 export const createChatSession = () =>
   ai.chats.create({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.6-flash",
   });

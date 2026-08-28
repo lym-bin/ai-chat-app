@@ -1,4 +1,3 @@
-// src // components // ChatInput.tsx  메시지 입력창과 전송 버튼이 포함된 하단 폼 영역
 // src // components // ChatInput.tsx 메시지 입력창 + 전송/중지 버튼
 
 import type { FormEvent } from "react";
@@ -24,6 +23,12 @@ export default function ChatInput({
       <InputField
         value={input}
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => {
+          // 한글 조합 확정용 Enter는 전송으로 처리하지 않음
+          if (e.key === "Enter" && e.nativeEvent.isComposing) {
+            e.preventDefault();
+          }
+        }}
         placeholder="메시지를 입력하세요..."
         disabled={loading}
       />

@@ -6,6 +6,7 @@ import styled from "styled-components";
 interface Props {
   input: string;
   loading: boolean;
+  placeholder?: string;
   onChange: (value: string) => void;
   onSubmit: (e: FormEvent) => void;
   onStop: () => void;
@@ -14,6 +15,7 @@ interface Props {
 export default function ChatInput({
   input,
   loading,
+  placeholder = "메시지를 입력하세요...",
   onChange,
   onSubmit,
   onStop,
@@ -29,7 +31,7 @@ export default function ChatInput({
             e.preventDefault();
           }
         }}
-        placeholder="메시지를 입력하세요..."
+        placeholder={placeholder}
         disabled={loading}
       />
       {loading ? (

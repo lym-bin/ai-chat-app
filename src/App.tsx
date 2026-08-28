@@ -1,21 +1,43 @@
-// src // App.tsx 챗봇 상태(messages, input, loading)와 핸들러를 관리하는 메인 컴포넌트
+// src // App.tsx 챗봇 상태(모드별 messages, input, loading)와 핸들러를 관리하는 메인 컴포넌트
 
 import { useState, useRef } from "react";
 import type { FormEvent } from "react";
 import styled from "styled-components";
 import ChatHeader from "./components/ChatHeader";
+import ModeTabs from "./components/ModeTabs";
+import DiaryHistory from "./components/DiaryHistory";
 import MessageList from "./components/MessageList";
 import ChatInput from "./components/ChatInput";
-import { createChatSession } from "./gemini";
-import type { Message } from "./types/message";
+import { createChatSession, createDiarySession } from "./gemini";
+import { loadDiaryEntries, saveDiaryEntries } from "./lib/diaryStorage";
+import type { ChatMode, DiaryEntry, Message } from "./types/message";
 
 export default function App() {
+  const [mode, setMode] = useState<ChatMode>("chat");
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const [diaryMessages, setDiaryMessages] = useState<Message[]>([]);
+  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>(loadDiaryEntries);
   const [loading, setLoading] = useState(false);
+
   const abortRef = useRef<AbortController | null>(null);
   const stoppedRef = useRef(false);
   const chatRef = useRef(createChatSession());
+  const diaryRef = useRef(createDiarySession());
+
+  const isDiary = mode === "diary";
+  const messages = isDiary ? diaryMessages : chatMessages;
+  const setMessages = isDiary ? setDiaryMessages : setChatMessages;
+  const sessionRef = isDiary ? diaryRef : chatRef;
+
+  const handleModeChange = (next: ChatMode) => {
+    if (next === mode || loading) return;
+    stoppedRef.current = true;
+    abortRef.current?.abort();
+    setLoading(false);
+    setInput("");
+    setMode(next);
+  };
 
   const handleStop = () => {
     stoppedRef.current = true;
@@ -34,10 +56,15 @@ export default function App() {
   const handleNewChat = () => {
     stoppedRef.current = true;
     abortRef.current?.abort();
-    chatRef.current = createChatSession();
-    setMessages([]);
-    setInput("");
     setLoading(false);
+    setInput("");
+    if (isDiary) {
+      diaryRef.current = createDiarySession();
+      setDiaryMessages([]);
+    } else {
+      chatRef.current = createChatSession();
+      setChatMessages([]);
+    }
   };
 
   const handleSend = async (e: FormEvent) => {
@@ -45,8 +72,12 @@ export default function App() {
     if (!input.trim() || loading) return;
 
     const userMessage = input;
+    const diaryMode = isDiary;
+    const session = sessionRef.current;
+    const applyMessages = setMessages;
+
     setInput("");
-    setMessages((prev) => [
+    applyMessages((prev) => [
       ...prev,
       { sender: "user", text: userMessage },
       { sender: "bot", text: "" },
@@ -57,8 +88,10 @@ export default function App() {
     const controller = new AbortController();
     abortRef.current = controller;
 
+    let botText = "";
+
     try {
-      const stream = await chatRef.current.sendMessageStream({
+      const stream = await session.sendMessageStream({
         message: userMessage,
         config: { abortSignal: controller.signal },
       });
@@ -67,7 +100,8 @@ export default function App() {
         if (stoppedRef.current) break;
         const piece = chunk.text ?? "";
         if (!piece) continue;
-        setMessages((prev) => {
+        botText += piece;
+        applyMessages((prev) => {
           if (prev.length === 0) return prev;
           const next = [...prev];
           next[next.length - 1] = {
@@ -77,12 +111,27 @@ export default function App() {
           return next;
         });
       }
+
+      // 일기 모드: 완성된 일기 + 위로 답변을 날짜별로 저장
+      if (diaryMode && !stoppedRef.current && botText.trim()) {
+        const entry: DiaryEntry = {
+          id: crypto.randomUUID(),
+          date: new Date().toISOString(),
+          entry: userMessage,
+          reply: botText,
+        };
+        setDiaryEntries((prev) => {
+          const nextEntries = [entry, ...prev];
+          saveDiaryEntries(nextEntries);
+          return nextEntries;
+        });
+      }
     } catch (error) {
       if (stoppedRef.current) {
         // 사용자가 직접 중지 → 지금까지 받은 답변 그대로 유지
       } else {
         console.error(error);
-        setMessages((prev) => {
+        applyMessages((prev) => {
           if (prev.length === 0) return prev;
           const next = [...prev];
           next[next.length - 1] = {
@@ -102,10 +151,13 @@ export default function App() {
   return (
     <Container>
       <ChatHeader onNewChat={handleNewChat} />
+      <ModeTabs mode={mode} onChange={handleModeChange} />
+      {isDiary && <DiaryHistory entries={diaryEntries} />}
       <MessageList messages={messages} loading={loading} />
       <ChatInput
         input={input}
         loading={loading}
+        placeholder={isDiary ? "오늘 하루는 어땠나요?" : "메시지를 입력하세요..."}
         onChange={setInput}
         onSubmit={handleSend}
         onStop={handleStop}

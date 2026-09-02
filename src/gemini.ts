@@ -1,5 +1,6 @@
 // src // gemini.ts 제미나이 SDK 초기화 및 채팅 세션 생성 (일반 채팅 / 일기 모드)
 import { GoogleGenAI } from "@google/genai";
+import type { Content } from "@google/genai";
 
 const ai = new GoogleGenAI({
   apiKey: import.meta.env.VITE_GEMINI_API_KEY,
@@ -13,10 +14,11 @@ const DIARY_SYSTEM_PROMPT =
   "위로의 말과 오늘 하루를 잘 마무리할 수 있는 다정한 조언을 건네줘. " +
   "마지막 줄에는 오늘 하루를 따뜻한 한 문장으로 요약해 줘.";
 
-// 일반 채팅 세션 (새 대화 버튼에서 재사용)
-export const createChatSession = () =>
+// 일반 채팅 세션 (저장된 대화가 있으면 history로 복원)
+export const createChatSession = (history: Content[] = []) =>
   ai.chats.create({
     model: MODEL,
+    history,
     config: { thinkingConfig: { thinkingBudget: 0 } },
   });
 

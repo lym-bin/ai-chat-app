@@ -31,10 +31,14 @@ const Bubble = styled.div<{ $sender: "user" | "bot" }>`
   font-size: 14px;
   align-self: ${({ $sender }) =>
     $sender === "user" ? "flex-end" : "flex-start"};
-  background: ${({ $sender }) => ($sender === "user" ? "2563eb" : "#e5e7eb")};
-  color: ${({ $sender }) => ($sender === "user" ? "ffffff" : "#1f2937")};
+  background: ${({ $sender }) => ($sender === "user" ? "#2563eb" : "#e5e7eb")};
+  color: ${({ $sender }) => ($sender === "user" ? "#ffffff" : "#1f2937")};
   word-break: break-word;
   white-space: pre-wrap;
+
+  @media (max-width: 640px) {
+    max-width: 85%;
+  }
 `;
 
 const TypingDots = styled.div`

@@ -1,6 +1,7 @@
 export interface Message {
   sender: "user" | "bot";
   text: string;
+  error?: boolean;
 }
 
 export type ChatMode = "chat" | "diary";

@@ -14,11 +14,18 @@ const DIARY_SYSTEM_PROMPT =
   "마지막 줄에는 오늘 하루를 따뜻한 한 문장으로 요약해 줘.";
 
 // 일반 채팅 세션 (새 대화 버튼에서 재사용)
-export const createChatSession = () => ai.chats.create({ model: MODEL });
+export const createChatSession = () =>
+  ai.chats.create({
+    model: MODEL,
+    config: { thinkingConfig: { thinkingBudget: 0 } },
+  });
 
 // 일기 모드 세션 — systemInstruction 으로 상담사 페르소나 주입
 export const createDiarySession = () =>
   ai.chats.create({
     model: MODEL,
-    config: { systemInstruction: DIARY_SYSTEM_PROMPT },
+    config: {
+      systemInstruction: DIARY_SYSTEM_PROMPT,
+      thinkingConfig: { thinkingBudget: 0 },
+    },
   });

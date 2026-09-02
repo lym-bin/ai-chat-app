@@ -17,7 +17,8 @@ export default function App() {
   const [input, setInput] = useState("");
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [diaryMessages, setDiaryMessages] = useState<Message[]>([]);
-  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>(loadDiaryEntries);
+  const [diaryEntries, setDiaryEntries] =
+    useState<DiaryEntry[]>(loadDiaryEntries);
   const [loading, setLoading] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -131,13 +132,24 @@ export default function App() {
         // 사용자가 직접 중지 → 지금까지 받은 답변 그대로 유지
       } else {
         console.error(error);
+        const raw = error instanceof Error ? error.message : String(error);
+        let text = "오류가 발생했어요. 잠시 후 다시 시도해주세요.";
+        if (raw.includes("429") || raw.includes("RESOURCE_EXHAUSTED")) {
+          text =
+            "무료 사용량 한도를 넘었어요. 잠시 뒤 또는 내일 다시 시도해주세요.";
+        } else if (
+          raw.includes("401") ||
+          raw.includes("403") ||
+          raw.includes("API key")
+        ) {
+          text = "API 키에 문제가 있어요. .env 파일의 키를 확인해주세요.";
+        } else if (raw.includes("404")) {
+          text = "모델을 찾을 수 없어요. gemini.ts의 모델명을 확인해주세요.";
+        }
         applyMessages((prev) => {
           if (prev.length === 0) return prev;
           const next = [...prev];
-          next[next.length - 1] = {
-            sender: "bot",
-            text: "오류가 발생했습니다. API 키를 확인해주세요.",
-          };
+          next[next.length - 1] = { sender: "bot", text };
           return next;
         });
       }
@@ -157,7 +169,9 @@ export default function App() {
       <ChatInput
         input={input}
         loading={loading}
-        placeholder={isDiary ? "오늘 하루는 어땠나요?" : "메시지를 입력하세요..."}
+        placeholder={
+          isDiary ? "오늘 하루는 어땠나요?" : "메시지를 입력하세요..."
+        }
         onChange={setInput}
         onSubmit={handleSend}
         onStop={handleStop}

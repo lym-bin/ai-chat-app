@@ -9,9 +9,17 @@ interface Props {
   messages: Message[];
   loading: boolean;
   onRetry: () => void;
+  suggestions: string[];
+  onSelectSuggestion: (text: string) => void;
 }
 
-export default function MessageList({ messages, loading, onRetry }: Props) {
+export default function MessageList({
+  messages,
+  loading,
+  onRetry,
+  suggestions,
+  onSelectSuggestion,
+}: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,7 +29,20 @@ export default function MessageList({ messages, loading, onRetry }: Props) {
   return (
     <ListContainer>
       {messages.length === 0 && (
-        <EmptyMessage>무엇이든 물어보세요! 대화가 시작됩니다.</EmptyMessage>
+        <EmptyState>
+          <EmptyMessage>무엇이든 물어보세요! 대화가 시작됩니다.</EmptyMessage>
+          <ChipRow>
+            {suggestions.map((text) => (
+              <Chip
+                key={text}
+                type="button"
+                onClick={() => onSelectSuggestion(text)}
+              >
+                {text}
+              </Chip>
+            ))}
+          </ChipRow>
+        </EmptyState>
       )}
       {messages.map((msg, index) => {
         const isLast = index === messages.length - 1;
@@ -61,11 +82,39 @@ const ListContainer = styled.div`
   background: var(--color-surface-alt);
 `;
 
-const EmptyMessage = styled.div`
-  text-align: center;
-  color: var(--color-text-muted);
+const EmptyState = styled.div`
   margin-top: 40px;
+  text-align: center;
+`;
+
+const EmptyMessage = styled.div`
+  color: var(--color-text-muted);
   font-size: 14px;
+`;
+
+const ChipRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+`;
+
+const Chip = styled.button`
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--color-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  &:hover {
+    background: #eff6ff;
+    border-color: var(--color-primary);
+  }
 `;
 
 const Row = styled.div<{ $sender: "user" | "bot" }>`

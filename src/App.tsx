@@ -49,6 +49,9 @@ export default function App() {
   const messages = isDiary ? diaryMessages : chatMessages;
   const setMessages = isDiary ? setDiaryMessages : setChatMessages;
   const sessionRef = isDiary ? diaryRef : chatRef;
+  const suggestions = isDiary
+    ? ["오늘 있었던 일을 적어보세요", "오늘 기분은 어땠나요?"]
+    : ["저녁 메뉴 추천해줘", "오늘 날씨 어때?", "개발자란 뭘까?"];
 
   // 일반 채팅 내역 저장 (스트리밍 끝난 뒤에만)
   useEffect(() => {
@@ -198,6 +201,12 @@ export default function App() {
     runSend(lastUser.text);
   };
 
+  const handleChipSelect = (text: string) => {
+    if (loading) return;
+    setMessages((prev) => [...prev, { sender: "user", text }]);
+    runSend(text);
+  };
+
   return (
     <Container>
       <ChatHeader onNewChat={handleNewChat} />
@@ -207,7 +216,10 @@ export default function App() {
         messages={messages}
         loading={loading}
         onRetry={handleRetry}
+        suggestions={suggestions}
+        onSelectSuggestion={handleChipSelect}
       />
+
       <ChatInput
         input={input}
         loading={loading}

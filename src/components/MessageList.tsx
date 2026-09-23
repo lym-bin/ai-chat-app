@@ -112,7 +112,7 @@ const Chip = styled.button`
     background 0.15s,
     border-color 0.15s;
   &:hover {
-    background: #eff6ff;
+    background: var(--color-primary-soft);
     border-color: var(--color-primary);
   }
 `;
@@ -149,6 +149,6 @@ const RetryButton = styled.button`
   border-radius: var(--radius-sm);
   cursor: pointer;
   &:hover {
-    background: #eff6ff;
+    background: var(--color-primary-soft);
   }
 `;

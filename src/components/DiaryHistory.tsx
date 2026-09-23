@@ -55,29 +55,29 @@ export default function DiaryHistory({ entries }: Props) {
 }
 
 const Wrapper = styled.div`
-  border-bottom: 1px solid #e5e7eb;
-  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
 `;
 
 const ToggleButton = styled.button`
   width: 100%;
   padding: 10px 20px;
   border: none;
-  background: #f9fafb;
+  background: var(--color-surface-alt);
   font-size: 13px;
-  color: #374151;
+  color: var(--color-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
   &:hover {
-    background: #f3f4f6;
+    background: var(--color-bg);
   }
 `;
 
 const Arrow = styled.span`
   font-size: 10px;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 `;
 
 const Panel = styled.div`
@@ -88,12 +88,12 @@ const Panel = styled.div`
 const Empty = styled.div`
   padding: 20px;
   text-align: center;
-  color: #9ca3af;
+  color: var(--color-text-muted);
   font-size: 13px;
 `;
 
 const Item = styled.div`
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--color-bg);
 `;
 
 const ItemHeader = styled.button`
@@ -107,19 +107,19 @@ const ItemHeader = styled.button`
   flex-direction: column;
   gap: 2px;
   &:hover {
-    background: #f9fafb;
+    background: var(--color-surface-alt);
   }
 `;
 
 const DateText = styled.span`
   font-size: 12px;
   font-weight: 600;
-  color: #2563eb;
+  color: var(--color-primary);
 `;
 
 const Preview = styled.span`
   font-size: 13px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -135,7 +135,7 @@ const Detail = styled.div`
 const Label = styled.span`
   font-size: 11px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--color-text-muted);
   margin-top: 8px;
 `;
 
@@ -143,7 +143,7 @@ const Body = styled.p`
   margin: 0;
   font-size: 13px;
   line-height: 1.5;
-  color: #1f2937;
+  color: var(--color-text);
   white-space: pre-wrap;
   word-break: break-word;
 `;

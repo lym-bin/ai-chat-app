@@ -12,6 +12,14 @@ export const GlobalStyle = createGlobalStyle`
     --color-border: #e5e7eb;
     --color-text: #1f2937;
     --color-text-muted: #6b7280;
+    --color-on-primary: #ffffff;
+    --color-primary-soft: #eff6ff;
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-disabled: #9ca3af;
+    --color-code-bg: #0f172a;
+    --color-code-text: #e2e8f0;
+    --gradient-header: linear-gradient(135deg, #1e293b, #111827);
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 24px;

@@ -21,8 +21,8 @@ export default function ChatHeader({ onNewChat }: Props) {
 }
 
 const HeaderContainer = styled.header`
-  background: linear-gradient(135deg, #1e293b, #111827);
-  color: #ffffff;
+  background: var(--gradient-header);
+  color: var(--color-on-primary);
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
@@ -53,7 +53,7 @@ const Title = styled.h1`
 `;
 const NewChatButton = styled.button`
   background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  color: var(--color-on-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 13px;
   padding: 6px 14px;

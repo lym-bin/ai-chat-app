@@ -38,7 +38,7 @@ const Bubble = styled.div<{ $sender: "user" | "bot" }>`
   background: ${({ $sender }) =>
     $sender === "user" ? "var(--color-primary)" : "var(--color-surface)"};
   color: ${({ $sender }) =>
-    $sender === "user" ? "#ffffff" : "var(--color-text)"};
+    $sender === "user" ? "var(--color-on-primary)" : "var(--color-text)"};
   border: ${({ $sender }) =>
     $sender === "user" ? "none" : "1px solid var(--color-border)"};
   box-shadow: var(--shadow-bubble);
@@ -86,8 +86,8 @@ const MarkdownWrapper = styled.div`
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   pre {
-    background: #0f172a;
-    color: #e2e8f0;
+    background: var(--color-code-bg);
+    color: var(--color-code-text);
     padding: 10px 12px;
     border-radius: 8px;
     overflow-x: auto;

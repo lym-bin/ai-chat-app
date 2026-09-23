@@ -82,7 +82,7 @@ const InputField = styled.input`
     background: var(--color-surface);
   }
   &:disabled {
-    background: #f3f4f6;
+    background: var(--color-bg);
     cursor: not-allowed;
   }
 `;
@@ -95,9 +95,9 @@ const IconButton = styled.button<{ $variant: "send" | "stop" }>`
   border: none;
   font-size: 16px;
   line-height: 1;
-  color: #ffffff;
+  color: var(--color-on-primary);
   background: ${({ $variant }) =>
-    $variant === "stop" ? "#dc2626" : "var(--color-primary)"};
+    $variant === "stop" ? "var(--color-danger)" : "var(--color-primary)"};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -107,13 +107,15 @@ const IconButton = styled.button<{ $variant: "send" | "stop" }>`
     transform 0.1s;
   &:hover {
     background: ${({ $variant }) =>
-      $variant === "stop" ? "#b91c1c" : "var(--color-primary-hover)"};
+      $variant === "stop"
+        ? "var(--color-danger-hover)"
+        : "var(--color-primary-hover)"};
   }
   &:active {
     transform: scale(0.94);
   }
   &:disabled {
-    background: #9ca3af;
+    background: var(--color-disabled);
     cursor: not-allowed;
   }
 `;

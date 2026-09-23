@@ -43,7 +43,8 @@ const Tab = styled.button<{ $active: boolean }>`
   padding: 8px 0;
   border: none;
   border-radius: 8px;
-  background: ${({ $active }) => ($active ? "#ffffff" : "transparent")};
+  background: ${({ $active }) =>
+    $active ? "var(--color-surface)" : "transparent"};
   color: ${({ $active }) =>
     $active ? "var(--color-primary)" : "var(--color-text-muted)"};
   font-size: 13px;

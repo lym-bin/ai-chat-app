@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import LoadingJoke from "./LoadingJoke";
 
 interface Props {
   sender: "user" | "bot";
@@ -13,11 +14,14 @@ export default function MessageBubble({ sender, text, showDots }: Props) {
   return (
     <Bubble $sender={sender}>
       {showDots ? (
-        <TypingDots>
-          <span />
-          <span />
-          <span />
-        </TypingDots>
+        <TypingWrapper>
+          <TypingDots>
+            <span />
+            <span />
+            <span />
+          </TypingDots>
+          <LoadingJoke active={showDots} />
+        </TypingWrapper>
       ) : sender === "bot" ? (
         <MarkdownWrapper>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
@@ -117,6 +121,11 @@ const MarkdownWrapper = styled.div`
     border: 1px solid var(--color-border);
     padding: 4px 8px;
   }
+`;
+
+const TypingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const TypingDots = styled.div`

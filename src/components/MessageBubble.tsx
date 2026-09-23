@@ -105,6 +105,9 @@ const MarkdownWrapper = styled.div`
     color: var(--color-text-muted);
   }
   table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin: 6px 0;
     font-size: 0.9em;

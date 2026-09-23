@@ -30,11 +30,14 @@ export default function MessageList({ messages, loading, onRetry }: Props) {
         const showRetry = isLast && msg.error === true && !loading;
         return (
           <Fragment key={index}>
-            <MessageBubble
-              sender={msg.sender}
-              text={msg.text}
-              showDots={showDots}
-            />
+            <Row $sender={msg.sender}>
+              {msg.sender === "bot" && <Avatar>🤖</Avatar>}
+              <MessageBubble
+                sender={msg.sender}
+                text={msg.text}
+                showDots={showDots}
+              />
+            </Row>
             {showRetry && (
               <RetryButton type="button" onClick={onRetry}>
                 다시 시도
@@ -55,25 +58,46 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: #f9fafb;
+  background: var(--color-surface-alt);
 `;
 
 const EmptyMessage = styled.div`
   text-align: center;
-  color: #9ca3af;
+  color: var(--color-text-muted);
   margin-top: 40px;
+  font-size: 14px;
+`;
+
+const Row = styled.div<{ $sender: "user" | "bot" }>`
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  justify-content: ${({ $sender }) =>
+    $sender === "user" ? "flex-end" : "flex-start"};
+`;
+
+const Avatar = styled.div`
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
 `;
 
 const RetryButton = styled.button`
   align-self: flex-start;
+  margin-left: 36px;
   margin-top: -4px;
   padding: 6px 12px;
   font-size: 13px;
-  color: #2563eb;
-  background: #ffffff;
-  border: 1px solid #2563eb;
-  border-radius: 8px;
+  color: var(--color-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   &:hover {
     background: #eff6ff;

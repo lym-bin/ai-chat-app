@@ -35,11 +35,23 @@ export default function ChatInput({
         disabled={loading}
       />
       {loading ? (
-        <SendButton type="button" onClick={onStop}>
-          중지
-        </SendButton>
+        <IconButton
+          type="button"
+          onClick={onStop}
+          $variant="stop"
+          aria-label="중지"
+        >
+          ■
+        </IconButton>
       ) : (
-        <SendButton type="submit">전송</SendButton>
+        <IconButton
+          type="submit"
+          $variant="send"
+          aria-label="전송"
+          disabled={!input.trim()}
+        >
+          ➤
+        </IconButton>
       )}
     </InputForm>
   );
@@ -47,21 +59,27 @@ export default function ChatInput({
 
 const InputForm = styled.form`
   display: flex;
-  padding: 16px;
-  border-top: 1px solid #e5e7eb;
-  background: #ffffff;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
 `;
 
 const InputField = styled.input`
   flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  border-radius: 8px;
+  padding: 12px 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-lg);
   outline: none;
   font-size: 14px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
   &:focus {
-    border-color: #2563eb;
+    border-color: var(--color-primary);
+    background: var(--color-surface);
   }
   &:disabled {
     background: #f3f4f6;
@@ -69,17 +87,30 @@ const InputField = styled.input`
   }
 `;
 
-const SendButton = styled.button`
-  margin-left: 8px;
-  padding: 10px 20px;
-  background: #2563eb;
-  color: #ffffff;
+const IconButton = styled.button<{ $variant: "send" | "stop" }>`
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff;
+  background: ${({ $variant }) =>
+    $variant === "stop" ? "#dc2626" : "var(--color-primary)"};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s,
+    transform 0.1s;
   &:hover {
-    background: #1d4ed8;
+    background: ${({ $variant }) =>
+      $variant === "stop" ? "#b91c1c" : "var(--color-primary-hover)"};
+  }
+  &:active {
+    transform: scale(0.94);
   }
   &:disabled {
     background: #9ca3af;

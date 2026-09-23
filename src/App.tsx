@@ -203,7 +203,11 @@ export default function App() {
       <ChatHeader onNewChat={handleNewChat} />
       <ModeTabs mode={mode} onChange={handleModeChange} />
       {isDiary && <DiaryHistory entries={diaryEntries} />}
-      <MessageList messages={messages} loading={loading} onRetry={handleRetry} />
+      <MessageList
+        messages={messages}
+        loading={loading}
+        onRetry={handleRetry}
+      />
       <ChatInput
         input={input}
         loading={loading}
@@ -224,11 +228,10 @@ const Container = styled.div`
   margin: 40px auto;
   display: flex;
   flex-direction: column;
-  border: 1px solid #374151;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
 
   @media (max-width: 640px) {
     max-width: 100%;

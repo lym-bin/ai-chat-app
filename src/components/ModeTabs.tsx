@@ -10,7 +10,7 @@ interface Props {
 
 export default function ModeTabs({ mode, onChange }: Props) {
   return (
-    <TabBar>
+    <TabTrack>
       <Tab
         type="button"
         $active={mode === "chat"}
@@ -25,29 +25,30 @@ export default function ModeTabs({ mode, onChange }: Props) {
       >
         오늘의 일기
       </Tab>
-    </TabBar>
+    </TabTrack>
   );
 }
 
-const TabBar = styled.div`
+const TabTrack = styled.div`
   display: flex;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 4px;
+  margin: 12px 16px 0;
+  padding: 4px;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
 `;
 
 const Tab = styled.button<{ $active: boolean }>`
   flex: 1;
-  padding: 12px 0;
+  padding: 8px 0;
   border: none;
-  background: transparent;
-  font-size: 14px;
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
-  color: ${({ $active }) => ($active ? "#2563eb" : "#6b7280")};
-  border-bottom: 2px solid
-    ${({ $active }) => ($active ? "#2563eb" : "transparent")};
+  border-radius: 8px;
+  background: ${({ $active }) => ($active ? "#ffffff" : "transparent")};
+  color: ${({ $active }) =>
+    $active ? "var(--color-primary)" : "var(--color-text-muted)"};
+  font-size: 13px;
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  box-shadow: ${({ $active }) => ($active ? "var(--shadow-bubble)" : "none")};
   cursor: pointer;
-  transition: color 0.15s;
-  &:hover {
-    color: #2563eb;
-  }
+  transition: all 0.15s;
 `;

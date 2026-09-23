@@ -9,7 +9,10 @@ interface Props {
 export default function ChatHeader({ onNewChat }: Props) {
   return (
     <HeaderContainer>
-      <Title>AI Talk / 챗봇 서비스</Title>
+      <TitleGroup>
+        <Logo>✨</Logo>
+        <Title>AI Talk</Title>
+      </TitleGroup>
       <NewChatButton type="button" onClick={onNewChat}>
         + 새 대화
       </NewChatButton>
@@ -18,30 +21,46 @@ export default function ChatHeader({ onNewChat }: Props) {
 }
 
 const HeaderContainer = styled.header`
-  background: #111827;
+  background: linear-gradient(135deg, #1e293b, #111827);
   color: #ffffff;
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #374151;
+`;
+
+const TitleGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const Logo = styled.span`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
 `;
 
 const Title = styled.h1`
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   margin: 0;
 `;
-
 const NewChatButton = styled.button`
-  background: transparent;
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  border: 1px solid #4b5563;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background 0.15s;
   &:hover {
-    background: #1f2937;
+    background: rgba(255, 255, 255, 0.18);
   }
 `;

@@ -26,13 +26,16 @@ export default function MessageBubble({ sender, text, showDots }: Props) {
 const Bubble = styled.div<{ $sender: "user" | "bot" }>`
   max-width: 75%;
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   line-height: 1.5;
   font-size: 14px;
-  align-self: ${({ $sender }) =>
-    $sender === "user" ? "flex-end" : "flex-start"};
-  background: ${({ $sender }) => ($sender === "user" ? "#2563eb" : "#e5e7eb")};
-  color: ${({ $sender }) => ($sender === "user" ? "#ffffff" : "#1f2937")};
+  background: ${({ $sender }) =>
+    $sender === "user" ? "var(--color-primary)" : "var(--color-surface)"};
+  color: ${({ $sender }) =>
+    $sender === "user" ? "#ffffff" : "var(--color-text)"};
+  border: ${({ $sender }) =>
+    $sender === "user" ? "none" : "1px solid var(--color-border)"};
+  box-shadow: var(--shadow-bubble);
   word-break: break-word;
   white-space: pre-wrap;
 
@@ -50,7 +53,7 @@ const TypingDots = styled.div`
   span {
     width: 6px;
     height: 6px;
-    background-color: #6b7280;
+    background-color: var(--color-text-muted);
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out both;
   }

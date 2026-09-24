@@ -7,6 +7,7 @@ import { GlobalStyle } from "./GlobalStyle.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    {/* 감시자 */}
     <GlobalStyle />
     <App />
   </StrictMode>,

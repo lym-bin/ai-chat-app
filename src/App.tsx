@@ -13,6 +13,9 @@ import { createChatSession, createDiarySession } from "./gemini";
 import { loadDiaryEntries, saveDiaryEntries } from "./lib/diaryStorage";
 import { loadChatMessages, saveChatMessages } from "./lib/chatStorage";
 import type { ChatMode, DiaryEntry, Message } from "./types/message";
+import { useMediaQuery } from "./hooks/useMediaQuery";
+import GameModal from "./components/GameModal";
+import GameSidePanel from "./components/GameSidePanel";
 
 // 저장된 메시지를 Gemini 대화 히스토리 형태로 변환
 function messagesToHistory(messages: Message[]): Content[] {
@@ -37,6 +40,8 @@ export default function App() {
   const [diaryEntries, setDiaryEntries] =
     useState<DiaryEntry[]>(loadDiaryEntries);
   const [loading, setLoading] = useState(false);
+  const [gameOpen, setGameOpen] = useState(false);
+  const isWideScreen = useMediaQuery("(min-width: 1000px)");
 
   const abortRef = useRef<AbortController | null>(null);
   const stoppedRef = useRef(false);
@@ -208,36 +213,58 @@ export default function App() {
   };
 
   return (
-    <Container>
-      <ChatHeader onNewChat={handleNewChat} />
-      <ModeTabs mode={mode} onChange={handleModeChange} />
-      {isDiary && <DiaryHistory entries={diaryEntries} />}
-      <MessageList
-        messages={messages}
-        loading={loading}
-        onRetry={handleRetry}
-        suggestions={suggestions}
-        onSelectSuggestion={handleChipSelect}
-      />
-
-      <ChatInput
-        input={input}
-        loading={loading}
-        placeholder={
-          isDiary ? "오늘 하루는 어땠나요?" : "메시지를 입력하세요..."
-        }
-        onChange={setInput}
-        onSubmit={handleSend}
-        onStop={handleStop}
-      />
-    </Container>
+    <Stage>
+      <Container>
+        <ChatHeader
+          onNewChat={handleNewChat}
+          onOpenGame={() => setGameOpen(true)}
+        />
+        <ModeTabs mode={mode} onChange={handleModeChange} />
+        {isDiary && <DiaryHistory entries={diaryEntries} />}
+        <MessageList
+          messages={messages}
+          loading={loading}
+          onRetry={handleRetry}
+          suggestions={suggestions}
+          onSelectSuggestion={handleChipSelect}
+        />
+        <ChatInput
+          input={input}
+          loading={loading}
+          placeholder={
+            isDiary ? "오늘 하루는 어땠나요?" : "메시지를 입력하세요..."
+          }
+          onChange={setInput}
+          onSubmit={handleSend}
+          onStop={handleStop}
+        />
+      </Container>
+      {gameOpen &&
+        (isWideScreen ? (
+          <GameSidePanel onClose={() => setGameOpen(false)} />
+        ) : (
+          <GameModal onClose={() => setGameOpen(false)} />
+        ))}
+    </Stage>
   );
 }
 
+const Stage = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  @media (max-width: 640px) {
+    margin: 0;
+  }
+`;
+
 const Container = styled.div`
   max-width: 600px;
+  width: 100%;
   height: 85vh;
-  margin: 40px auto;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-md);
@@ -248,8 +275,6 @@ const Container = styled.div`
   @media (max-width: 640px) {
     max-width: 100%;
     height: 100dvh;
-    margin: 0;
-    border: none;
     border-radius: 0;
     box-shadow: none;
   }

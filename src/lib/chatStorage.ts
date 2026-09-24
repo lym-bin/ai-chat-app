@@ -8,6 +8,7 @@ export function loadChatMessages(): Message[] {
     const raw = localStorage.getItem(KEY);
     const parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed : [];
+    // 빈 배열 리턴
   } catch {
     return [];
   }
@@ -17,6 +18,6 @@ export function saveChatMessages(messages: Message[]): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(messages));
   } catch {
-    // 저장 실패는 무시
+    // false ignore
   }
 }

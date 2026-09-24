@@ -24,7 +24,7 @@ export default function MessageList({
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages]); // messages: 의존성 배열
 
   return (
     <ListContainer>

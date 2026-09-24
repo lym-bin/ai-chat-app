@@ -2,10 +2,12 @@
 import { GoogleGenAI } from "@google/genai";
 import type { Content } from "@google/genai";
 
+// Key
 const ai = new GoogleGenAI({
   apiKey: import.meta.env.VITE_GEMINI_API_KEY,
 });
 
+// GeminiApi Model
 const MODEL = "gemini-3.6-flash";
 
 // 일기 모드에서 세션 레벨로 주입되는 시스템 프롬프트

@@ -4,18 +4,24 @@ import styled from "styled-components";
 
 interface Props {
   onNewChat: () => void;
+  onOpenGame: () => void;
 }
 
-export default function ChatHeader({ onNewChat }: Props) {
+export default function ChatHeader({ onNewChat, onOpenGame }: Props) {
   return (
     <HeaderContainer>
       <TitleGroup>
         <Logo>✨</Logo>
         <Title>AI Talk</Title>
       </TitleGroup>
-      <NewChatButton type="button" onClick={onNewChat}>
-        + 새 대화
-      </NewChatButton>
+      <Actions>
+        <GameButton type="button" onClick={onOpenGame} aria-label="미니게임">
+          🎮 미니게임
+        </GameButton>
+        <NewChatButton type="button" onClick={onNewChat}>
+          + 새 대화
+        </NewChatButton>
+      </Actions>
     </HeaderContainer>
   );
 }
@@ -58,6 +64,29 @@ const NewChatButton = styled.button`
   font-size: 13px;
   padding: 6px 14px;
   border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const GameButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-on-primary);
+  font-size: 12px;
   cursor: pointer;
   transition: background 0.15s;
   &:hover {

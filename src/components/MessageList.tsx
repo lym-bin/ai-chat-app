@@ -31,6 +31,7 @@ export default function MessageList({
       {messages.length === 0 && (
         <EmptyState>
           <EmptyMessage>무엇이든 물어보세요! 대화가 시작됩니다.</EmptyMessage>
+          <Notice>※ 무료 데모라 하루 20회까지만 응답돼요</Notice>
           <ChipRow>
             {suggestions.map((text) => (
               <Chip
@@ -90,6 +91,12 @@ const EmptyState = styled.div`
 const EmptyMessage = styled.div`
   color: var(--color-text-muted);
   font-size: 14px;
+`;
+
+const Notice = styled.div`
+  margin-top: 6px;
+  color: var(--color-text-muted);
+  font-size: 11px;
 `;
 
 const ChipRow = styled.div`

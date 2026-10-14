@@ -1,30 +1,29 @@
 // src // GlobalStyle.tsx 전역 스타일 (디자인 토큰, body 여백 제거, 배경, 폰트)
 import { createGlobalStyle } from "styled-components";
 
-// 색상,라운드값,그림자 CSS 변수
+// 색상,라운드값,그림자 CSS 변수 — 네오브루탈 × 레트로 테마
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --color-primary: #2563eb;
-    --color-primary-hover: #1d4ed8;
-    --color-bg: #f3f4f6;
+    --color-primary: #3B82F6;
+    --color-primary-hover: #2563EB;
+    --color-accent: #FF4D8D;
+    --color-bg: #FFE347;
     --color-surface: #ffffff;
-    --color-surface-alt: #f9fafb;
-    --color-border: #e5e7eb;
-    --color-text: #1f2937;
-    --color-text-muted: #6b7280;
+    --color-surface-alt: #FFF4B8;
+    --color-border: #111111;
+    --color-text: #111111;
+    --color-text-muted: #555555;
     --color-on-primary: #ffffff;
-    --color-primary-soft: #eff6ff;
     --color-danger: #dc2626;
-    --color-danger-hover: #b91c1c;
-    --color-disabled: #9ca3af;
-    --color-code-bg: #0f172a;
-    --color-code-text: #e2e8f0;
-    --gradient-header: linear-gradient(135deg, #1e293b, #111827);
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-    --shadow-bubble: 0 1px 2px rgba(15, 23, 42, 0.06);
-    --shadow-card: 0 10px 30px -12px rgba(15, 23, 42, 0.25);
+    --color-disabled: #a8a8a8;
+    --color-code-bg: #111111;
+    --color-code-text: #FFE347;
+    --gradient-header: #111111;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --shadow-bubble: 3px 3px 0 var(--color-border);
+    --shadow-card: 4px 4px 0 var(--color-border);
   }
 
   * {
@@ -33,7 +32,6 @@ export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     background: var(--color-bg);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-family: 'Nanum Gothic Coding', ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 `;

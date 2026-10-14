@@ -168,6 +168,9 @@ export default function App() {
           text = "API 키에 문제가 있어요. .env 파일의 키를 확인해주세요.";
         } else if (raw.includes("404")) {
           text = "모델을 찾을 수 없어요. gemini.ts의 모델명을 확인해주세요.";
+        } else if (raw.includes("503") || raw.includes("UNAVAILABLE")) {
+          text =
+            "지금 AI 서버가 많이 바빠요. 10초 ~ 1분 정도 뒤에 다시 시도해주세요.";
         }
         applyMessages((prev) => {
           if (prev.length === 0) return prev;
@@ -267,6 +270,7 @@ const Container = styled.div`
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  border: 4px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--color-surface);
@@ -275,6 +279,7 @@ const Container = styled.div`
   @media (max-width: 640px) {
     max-width: 100%;
     height: 100dvh;
+    border: none;
     border-radius: 0;
     box-shadow: none;
   }

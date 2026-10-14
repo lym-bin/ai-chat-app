@@ -103,17 +103,19 @@ const ChipRow = styled.div`
 const Chip = styled.button`
   padding: 8px 14px;
   font-size: 13px;
-  color: var(--color-primary);
+  font-weight: 700;
+  color: var(--color-text);
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-bubble);
   cursor: pointer;
   transition:
-    background 0.15s,
-    border-color 0.15s;
-  &:hover {
-    background: var(--color-primary-soft);
-    border-color: var(--color-primary);
+    transform 0.08s,
+    box-shadow 0.08s;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
   }
 `;
 
@@ -129,12 +131,13 @@ const Avatar = styled.div`
   flex-shrink: 0;
   width: 28px;
   height: 28px;
-  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 const RetryButton = styled.button`
@@ -143,12 +146,18 @@ const RetryButton = styled.button`
   margin-top: -4px;
   padding: 6px 12px;
   font-size: 13px;
-  color: var(--color-primary);
+  font-weight: 700;
+  color: var(--color-text);
   background: var(--color-surface);
-  border: 1px solid var(--color-primary);
+  border: 3px solid var(--color-border);
   border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-bubble);
   cursor: pointer;
-  &:hover {
-    background: var(--color-primary-soft);
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
   }
 `;

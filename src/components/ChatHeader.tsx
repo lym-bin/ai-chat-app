@@ -10,16 +10,13 @@ interface Props {
 export default function ChatHeader({ onNewChat, onOpenGame }: Props) {
   return (
     <HeaderContainer>
-      <TitleGroup>
-        <Logo>✨</Logo>
-        <Title>AI Talk</Title>
-      </TitleGroup>
+      <Title>[ AI TALK ]</Title>
       <Actions>
         <GameButton type="button" onClick={onOpenGame} aria-label="미니게임">
-          🎮 미니게임
+          [게임]
         </GameButton>
         <NewChatButton type="button" onClick={onNewChat}>
-          + 새 대화
+          [+ 새 대화]
         </NewChatButton>
       </Actions>
     </HeaderContainer>
@@ -35,40 +32,11 @@ const HeaderContainer = styled.header`
   align-items: center;
 `;
 
-const TitleGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const Logo = styled.span`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-`;
-
 const Title = styled.h1`
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   margin: 0;
-`;
-const NewChatButton = styled.button`
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-on-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 13px;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.15s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.18);
-  }
 `;
 
 const Actions = styled.div`
@@ -77,19 +45,36 @@ const Actions = styled.div`
   gap: 8px;
 `;
 
-const GameButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+const NewChatButton = styled.button`
+  background: var(--color-accent);
   color: var(--color-on-primary);
-  font-size: 12px;
+  border: 3px solid var(--color-bg);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
   cursor: pointer;
-  transition: background 0.15s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.18);
+  transition:
+    background 0.08s,
+    box-shadow 0.08s;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+`;
+
+const GameButton = styled.button`
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 3px solid var(--color-bg);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition:
+    background 0.08s,
+    box-shadow 0.08s;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
   }
 `;

@@ -31,25 +31,28 @@ export default function ModeTabs({ mode, onChange }: Props) {
 
 const TabTrack = styled.div`
   display: flex;
-  gap: 4px;
+  gap: 8px;
   margin: 12px 16px 0;
-  padding: 4px;
-  background: var(--color-surface-alt);
-  border-radius: var(--radius-sm);
 `;
 
 const Tab = styled.button<{ $active: boolean }>`
   flex: 1;
-  padding: 8px 0;
-  border: none;
-  border-radius: 8px;
+  padding: 9px 0;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: ${({ $active }) =>
-    $active ? "var(--color-surface)" : "transparent"};
+    $active ? "var(--color-primary)" : "var(--color-surface)"};
   color: ${({ $active }) =>
-    $active ? "var(--color-primary)" : "var(--color-text-muted)"};
+    $active ? "var(--color-on-primary)" : "var(--color-text)"};
   font-size: 13px;
-  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  font-weight: 700;
   box-shadow: ${({ $active }) => ($active ? "var(--shadow-bubble)" : "none")};
   cursor: pointer;
-  transition: all 0.15s;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
 `;
